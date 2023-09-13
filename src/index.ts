@@ -12,6 +12,8 @@ app.use(express.json())
 app
     .post('/user/create', userController.handle)
     .get('/user/login', userController.login)
-    .get('/todo/create', todoController.handle)
+
+    .post('/todo/create', todoController.handle)
+    .get('/todo/list', todoController.list)
 
 app.listen(3000, () => { console.log("!!! Up and Running !!!")})

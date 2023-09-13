@@ -8,6 +8,11 @@ interface todoI {
     userId: string
 }
 
+interface listArguments {
+    userId: string,
+    completed?: boolean
+}
+
 const prismaClient = new PrismaClient()
 
 class TodoService {
@@ -17,6 +22,18 @@ class TodoService {
         })
 
         return todoCreated
+    }
+
+    async list(props: listArguments){
+
+        const todoList = await prismaClient.todo.findMany({
+            where:{
+                userId: props.userId,
+                completed: props?.completed
+            }
+        })
+
+        return todoList
     }
 }
 

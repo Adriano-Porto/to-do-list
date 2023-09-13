@@ -11,8 +11,12 @@ class TodoController {
         return res.json(todoCreated)
     }
 
-    async listAll() {
+    async list(req: Request, res: Response) {
+        const props = req.body
+        
+        const todoList = await todoService.list(props)
 
+        return res.json(todoList)
     }
 
     async listNonCompleted() {
