@@ -11,13 +11,11 @@ class UserController {
         const props = req.body
         try {
             const newUser = await userService.create(props)
-
-            console.log(newUser)
     
             return res.json(newUser)
         } catch (err) {
             console.log(err)
-            return res.json({message: "Error creating user"})
+            return res.status(400).json({message: "Error creating user", error: err})
         }
         
 
@@ -31,7 +29,7 @@ class UserController {
         if(userFound) {
             return res.status(200).json(userFound)
         }
-        return res.status(404).json({message: "User does not exists"})
+        return res.status(404).json({message: "Email ou Login Errados"})
     }
 }
 
