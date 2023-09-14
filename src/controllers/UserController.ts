@@ -12,10 +12,15 @@ class UserController {
         try {
             const newUser = await userService.create(props)
     
-            return res.json(newUser)
+            if (newUser == null) {
+                return res.status(400)
+            }
+
+            return res.status(201).json(newUser)
+            
         } catch (err) {
             console.log(err)
-            return res.status(400).json({message: "Error creating user", error: err})
+            return res.status(500).json({message: "Error creating user", error: err})
         }
         
 

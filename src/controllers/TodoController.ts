@@ -8,13 +8,21 @@ class TodoController {
         const props = req.body
 
         const todoCreated = await todoService.create(props)
-        return res.json(todoCreated)
+        
+        if (!todoCreated) {
+            return res.status(404).json({message: "User Id não existe na database"})
+        }
+        return res.status(201).json(todoCreated)
     }
 
     async list(req: Request, res: Response) {
         const props = req.body
         
         const todoList = await todoService.list(props)
+
+        if(!todoList) {
+            return res.status(404).json({message: "User Id não existe na database"})
+        }
 
         return res.json(todoList)
     }

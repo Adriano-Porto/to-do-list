@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { ValidationError } from "../error/ValidationError";
 
 interface todoI {
     title: string,
@@ -21,6 +22,10 @@ class TodoService {
             data: props
         })
 
+        if (!todoCreated) {
+            throw new ValidationError("Id de usuário não existe", 404)
+        }
+
         return todoCreated
     }
 
@@ -32,6 +37,10 @@ class TodoService {
                 completed: props?.completed
             }
         })
+
+        if (!todoList) {
+            throw new ValidationError("Id de usuário não existe", 404)
+        }
 
         return todoList
     }

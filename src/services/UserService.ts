@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from "bcrypt"
+import { ValidationError } from '../error/ValidationError'
 
 const prismaClient = new PrismaClient()
 
@@ -21,7 +22,9 @@ class UserService {
     async create(userObj:UserI) {
         const userExists = await this.checkUserExists(userObj.email)
 
-        if (userExists) { return {message: "User Already Exists"}}
+        if (userExists) {
+            throw new ValidationError("Email já existente na base de dados", 400)
+        }
 
         const encryptedPassword:string = await this.encrypt(userObj.password)
 
@@ -48,10 +51,13 @@ class UserService {
 
         const passwordChecks = await this.checkEncrypt(loginObj.password, userFound.password)
         
-        delete(userFound.password)
+        
         if (!passwordChecks){
-            return null
+            throw new ValidationError("Email ou Senha Incorretos", 400)
         }
+
+        delete(userFound.password)
+
         return userFound
 
     }

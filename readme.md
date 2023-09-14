@@ -39,3 +39,15 @@ Criação:
         "end_at": "2023-09-09T18:10:00.000Z",
         "completed": false
     }
+
+Listagem por userId:
+    Rota: /todo/list
+    Estrutura:
+    
+    {
+	    "userId": "64fb5dcd8cf24a08b1cd4876"
+        "completed": false 
+    }
+    
+    obs: "completed" vai fornecer apenas os que satisfaçam os valores de completed, pode ser omitido.
+
