@@ -16,6 +16,7 @@ app
 app
     .post('/user/create', userController.handle)
     .get('/user/login', userController.login)
+    .delete('/user/delete', userController.deleteUser)
 
     // todo create delete routes for both
 
