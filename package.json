@@ -17,7 +17,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "npx nodemon src/index.ts",
-    "start": "./react-app"
+    "start": " npx ts-node src/index.ts"
   },
   "author": "",
   "license": "ISC"

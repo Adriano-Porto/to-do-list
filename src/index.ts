@@ -8,6 +8,8 @@ import { handleErrors } from "./error"
 const userController = new UserController()
 const todoController = new TodoController()
 
+const PORT = process.env.LOCAL_PORT
+
 const app = express()
 
 app
@@ -26,4 +28,4 @@ app
     .patch  ('/todo/edit', todoController.edit)
 
 app
-    .listen(3000, () => { console.log("!!! Up and Running !!!", 3000)})
+    .listen(PORT, () => { console.log(`Up and Running on port ${PORT}`)})

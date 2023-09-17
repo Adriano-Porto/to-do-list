@@ -1,11 +1,53 @@
-## Back-End
+# To Do List
 
-### Rotas
+Aplicativo criado para listagem de tarefas [Back-end apenas] para o processo seletivo da Codex.
 
-Porta Padrão: 3000
+O aplicativo conta com Criação, Login, Atualização e Remoção de usuário do banco de dados e com Criação, Listagem, Remoção e Atualização dos objectos Todo, que comportam as tarefas registradas pelo usuário.
 
-#### Usuário
-Criação:
+# Baixar
+
+Rode o comando:
+
+```
+git clone https://github.com/Adriano-Porto/to-do-list.git
+```
+
+```
+cd to-do-list
+```
+
+Para acessar o código da aplicação
+Baixe as depedências do código com:
+```
+npm install
+```
+E incialize a aplicação com:
+```
+npm start
+```
+Caso não funcione, execute o comando
+```
+npm install express-async-errors bcrypt
+```
+
+Além disso, crie um arquivo chamado ".env" e atribua:
+```
+DATABASE_URL = "mongodb+srv://Adriano-Porto:Aa170505@cluster0.wag8djc.mongodb.net/data0?retryWrites=true&w=majority"
+LOCAL_PORT = <Uma porta do seu computador>
+```
+
+# Tecnologias Utilizadas
+
+Foi utilizado Node.js 18.15.0 como ambiente de execução dessa aplicação, junto com Express para as rotas REST, MongoDB como banco de dados, PrismaORM para iteragir com o banco de dados e Bcrypt para criptografia de senhas.
+
+# Rotas
+
+Porta padrão do projeto: 8080
+
+## Rotas de Usuário
+
+### POST Criação de Usuário:
+
     Rota: /user/create  
     Estrutura:  
     
@@ -18,7 +60,8 @@ Criação:
         "age": "21"  
     }
 
-Logar:
+### GET Logar Usuário
+
     Rota: /user/login  
     Estrutura:  
     
@@ -27,8 +70,36 @@ Logar:
         "password": "teste"
     }
 
-#### Todo
-Criação:
+### PATCH Atualizar Usuário
+
+    Rota: /user/edit
+    Estrutura:
+    {
+	"userId": "6505f947822c71b698fd7c0c",
+	"password": "teste75",
+	"editObj": {
+		"password": "abcdefg",
+		"age": "120",
+		"gender": "teste"
+        }
+    }
+    Onde as propriedades de editObj são as que serão alteradas do objeto Usuário, essas propriedades podem ser: name, password, email, gender, photo e age.
+
+### DELETE Remover Usuário
+
+    Rota: /user/delete
+    Estrutura:
+    {
+	    "userId": "65065d9e3003b29c4c330ef7",
+        "password": "teste75"
+    }
+    
+    Essa rota remove o Usuário e todos os "Todos" relacionados a ele
+    
+## Todo
+
+### POST Criar Todo:
+
     Rota: /todo/create  
     Estrutura:  
 
@@ -40,7 +111,8 @@ Criação:
         "completed": false
     }
 
-Listagem por userId:
+### GET Listagem por userId:
+
     Rota: /todo/list
     Estrutura:
     
@@ -49,5 +121,25 @@ Listagem por userId:
         "completed": false 
     }
     
-    obs: "completed" vai fornecer apenas os que satisfaçam os valores de completed, pode ser omitido.
+    O elemento "completed" pode ser omitido para retornar os Todos que foram completados e que não o foram
 
+### DELETE Remover Todo:
+
+    Rota: /todo/delete
+    Estrutura:
+    {
+	    "id": "65065d9e3003b29c4c330ef7"
+    }
+
+### PATCH Atualizar Todo:
+
+    Rota: /todo/edit
+    Estrutura:
+    {
+	"id": "65065d9e3003b29c4c330ef7",
+	"editObj": {
+		"title": "this title was edited"
+	    }
+    }
+    
+    Mais uma vez o editObj contém as variáveis para serem editadas, essas podem ser title, created_at, end_at e completed
