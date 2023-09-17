@@ -18,14 +18,21 @@ interface LoginI {
     password: string,
 }
 
-interface DeleteI {
+interface ChangeI {
     userId: string,
-    password: string
+    password: string,
+    editObj: {
+        password?: string,
+        age?: string,
+        gender?: string,
+        photo?: string,
+        name?: string,
+    }
 }
 
 class UserService {
     async create(userObj:UserI) {
-        const userExists = await this.checkUserExists(userObj.email)
+        const userExists = await this.checkUser(userObj.email)
 
         if (userExists) {
             throw new ValidationError("Email já existente na base de dados", 400)
@@ -58,7 +65,7 @@ class UserService {
         
         
         if (!passwordChecks){
-            throw new ValidationError("Email ou Senha Incorretos", 400)
+            throw new ValidationError("Email ou Senha Incorretos", 404)
         }
 
         delete(userFound.password)
@@ -67,7 +74,7 @@ class UserService {
 
     }
 
-    async deleteUser(deleteParams: DeleteI) {
+    async deleteUser(deleteParams: ChangeI) {
         // First Authenticate User
 
         const userFound = await prismaClient.user.findUnique({
@@ -81,7 +88,7 @@ class UserService {
 
         if (!userFound) { throw new ValidationError("Usuário não está presente na database", 404)}
 
-        const logedIn = this.checkEncrypt(deleteParams.password, userFound.password)
+        const logedIn = await this.checkEncrypt(deleteParams.password, userFound.password)
 
         if (!logedIn) { throw new ValidationError("Senha Incorreta", 403)}
 
@@ -113,19 +120,61 @@ class UserService {
             return deleteUser
         }
     }
-    
-    async checkUserExists(email: string) {
-        const userExists = await prismaClient.user.findFirst({
+
+    async edit(changeObj: ChangeI) {
+        // first authenticateUser
+        const userFound = await prismaClient.user.findUnique({
             where: {
-                email: email
+                id: changeObj.userId
             }
         })
 
-        console.log(userExists)
+        if (!userFound) { throw new ValidationError("Usuário não está presente na database", 404)}
 
-        return !!userExists
+        const logedIn = await this.checkEncrypt(changeObj.password, userFound.password)
+
+        if (!logedIn) { throw new ValidationError("Senha Incorreta", 403)}
+
+
+        if(changeObj.editObj.password) {
+            const passwordHash = await this.encrypt(changeObj.editObj.password)
+            changeObj.editObj.password = passwordHash
+            // console.log({new: passwordHash, old: userFound.password})
+            delete(userFound.password)
+        }
+
+        const newUser = {...changeObj.editObj, ...userFound}
+
+
+
+        // console.log({newUser})
+
+        delete(newUser.id)
+
+        const userEdited = await prismaClient.user.update({
+            where: {
+                id: userFound.id
+            },
+            data: newUser
+        })
+
+        return userEdited
+
     }
     
+    async checkUser(email: string, includeTodo: boolean = false) {
+        const userExists = await prismaClient.user.findFirst({
+            where: {
+                email: email
+            },
+            include: {
+                todos: includeTodo
+            }
+        })
+
+        return userExists
+    }
+
     async encrypt (password: string) {
 
         const hash = await bcrypt.hash(password, 10)

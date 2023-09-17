@@ -17,7 +17,7 @@ class UserController {
 
     async login(req: Request, res: Response) {
         const props = req.body
-        
+
         const userFound = await userService.login(props)
 
      
@@ -28,9 +28,17 @@ class UserController {
     async deleteUser(req: Request, res: Response){
         const props = req.body
 
-        const userDeleted = await userService.deleteUser(props)
+        await userService.deleteUser(props)
 
-        return res.status(200).json({message: "Usuário deletado com sucesso"})
+        return res.json({message: "Usuário deletado com sucesso"})
+    }
+
+    async edit(req: Request, res: Response) {
+        const props = req.body
+        
+        const userEdited = await userService.edit(props)
+
+        return res.json(userEdited)
     }
 }
 
