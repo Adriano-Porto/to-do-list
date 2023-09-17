@@ -9,9 +9,23 @@ interface todoI {
     userId: string
 }
 
-interface listArguments {
+interface listI {
     userId: string,
     completed?: boolean
+}
+
+interface deleteI {
+    id: string
+}
+
+interface editI {
+    id: string,
+    editObj: {
+        created_at?: string,
+        end_at?: string,
+        completed?: boolean
+        title?: string,
+    }
 }
 
 const prismaClient = new PrismaClient()
@@ -29,7 +43,7 @@ class TodoService {
         return todoCreated
     }
 
-    async list(props: listArguments){
+    async list(props: listI){
 
         const todoList = await prismaClient.todo.findMany({
             where:{
@@ -43,6 +57,32 @@ class TodoService {
         }
 
         return todoList
+    }
+
+    async deleteTodo(props: deleteI) {
+        console.log(props)
+        const deletedTodo = await prismaClient.todo.delete({
+            where: {
+                id: props.id
+            }
+        })
+
+        console.log(deletedTodo)
+        // if (!todoList) {
+        //     throw new ValidationError(`Não foi possível encontrar Todo`, 404);
+        // }
+    }
+
+    async edit(props: editI) {
+        const editElements = {...props.editObj}
+        const editedTodo = await prismaClient.todo.update({
+            where: {
+                id: props.id
+            },
+            data: {...editElements}
+        })
+
+        return editedTodo
     }
 }
 

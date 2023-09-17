@@ -6,5 +6,5 @@ export function handleErrors(err: Error, req: Request, res: Response, next: Next
     if (err instanceof ValidationError) {
         return res.status(err.status).json(err.message)
     }
-    return res.status(500).json({error: `Foi mal bixão, deu errado aqui`})
+    return res.status(500).json({error: err.message})
 }

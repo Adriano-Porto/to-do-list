@@ -9,9 +9,6 @@ class TodoController {
 
         const todoCreated = await todoService.create(props)
         
-        if (!todoCreated) {
-            return res.status(404).json({message: "User Id não existe na database"})
-        }
         return res.status(201).json(todoCreated)
     }
 
@@ -20,15 +17,25 @@ class TodoController {
         
         const todoList = await todoService.list(props)
 
-        if(!todoList) {
-            return res.status(404).json({message: "User Id não existe na database"})
-        }
-
         return res.json(todoList)
     }
 
-    async listNonCompleted() {
+    async deleteTodo(req: Request, res: Response) {
+        const props = req.body
 
+        console.log("got here")
+
+        await todoService.deleteTodo(props)
+
+        return res.json({message: `Todo deletado com sucesso`})
+    }
+
+    async edit(req: Request, res: Response) {
+        const props = req.body
+
+        const editedTodo = await todoService.edit(props)
+
+        return res.json(editedTodo)
     }
 }
 

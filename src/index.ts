@@ -15,16 +15,15 @@ app
     .use(handleErrors)
 
 app
-    .post('/user/create', userController.handle)
-    .get('/user/login', userController.login)
-    .delete('/user/delete', userController.deleteUser)
-    .patch('/user/edit', userController.edit)
+    .post   ('/user/create', userController.handle)
+    .get    ('/user/login', userController.login)
+    .delete ('/user/delete', userController.deleteUser)
+    .patch  ('/user/edit', userController.edit)
 
-    // todo create delete routes for both
-
-
-    .post('/todo/create', todoController.handle)
-    .get('/todo/list', todoController.list)
+    .post   ('/todo/create', todoController.handle)
+    .get    ('/todo/list', todoController.list)
+    .delete ('/todo/delete', todoController.deleteTodo)
+    .patch  ('/todo/edit', todoController.edit)
 
 app
     .listen(3000, () => { console.log("!!! Up and Running !!!", 3000)})
