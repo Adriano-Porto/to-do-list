@@ -30,12 +30,6 @@ Caso não funcione, execute o comando
 npm install express-async-errors bcrypt
 ```
 
-Além disso, crie um arquivo chamado ".env" e atribua:
-```
-DATABASE_URL = "mongodb+srv://Adriano-Porto:Aa170505@cluster0.wag8djc.mongodb.net/data0?retryWrites=true&w=majority"
-LOCAL_PORT = <Uma porta do seu computador>
-```
-
 # Tecnologias Utilizadas
 
 Foi utilizado Node.js 18.15.0 como ambiente de execução dessa aplicação, junto com Express para as rotas REST, MongoDB como banco de dados, PrismaORM para iteragir com o banco de dados e Bcrypt para criptografia de senhas.
