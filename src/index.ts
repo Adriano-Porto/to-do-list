@@ -3,12 +3,13 @@ import "express-async-errors"
 import { UserController } from './controllers/UserController'
 import { TodoController } from './controllers/TodoController'
 import { handleErrors } from "./error"
+import { checkEnvironmentVariables } from "./controllers/EnvironmentController"
 import cors from 'cors'
 
 const userController = new UserController()
 const todoController = new TodoController()
 
-const PORT = process.env.PORT
+const { port } = checkEnvironmentVariables()
 
 const app = express()
 
@@ -31,6 +32,6 @@ app
     .patch  ('/todo/edit', todoController.edit)
 
 app
-    .listen(PORT, () => console.log(`Up and Running on port ${PORT}`))
+    .listen(port, () => console.log(`Up and Running on port ${port}`))
 
 export { app } 
