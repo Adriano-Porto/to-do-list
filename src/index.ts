@@ -32,6 +32,5 @@ app
 
 app
     .listen(PORT, () => console.log(`Up and Running on port ${PORT}`))
-    .close(() => console.log(`Server is being Terminated`))
 
 export { app } 
