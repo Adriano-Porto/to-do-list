@@ -8,7 +8,7 @@ import cors from 'cors'
 const userController = new UserController()
 const todoController = new TodoController()
 
-const PORT = process.env.LOCAL_PORT
+const PORT = process.env.PORT
 
 const app = express()
 
@@ -31,6 +31,6 @@ app
     .patch  ('/todo/edit', todoController.edit)
 
 app
-    .listen(8080, () => console.log(`Up and Running on port ${8080}`))
+    .listen(PORT, () => console.log(`Up and Running on port ${PORT}`))
 
 export { app } 
