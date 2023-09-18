@@ -8,6 +8,7 @@ import cors from 'cors'
 const userController = new UserController()
 const todoController = new TodoController()
 
+console.log(process.env.URL_DATABASE_MONGODB)
 const PORT = process.env.PORT
 
 const app = express()
