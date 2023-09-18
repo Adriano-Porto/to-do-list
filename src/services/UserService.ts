@@ -61,11 +61,15 @@ class UserService {
             }
         })
 
+        if(!userFound) {
+            throw new ValidationError("Usuário não encontrado", 404)
+        }
+
         const passwordChecks = await this.checkEncrypt(loginObj.password, userFound.password)
         
         
         if (!passwordChecks){
-            throw new ValidationError("Email ou Senha Incorretos", 404)
+            throw new ValidationError("Email ou Senha Incorretos", 400)
         }
 
         delete(userFound.password)
