@@ -30,6 +30,6 @@ model Todo {
 
 datasource db {
   provider = "mongodb"
-  url      = env("URL_DATABASE_MONGODB")
-  directUrl = env("URL_DATABASE_MONGODB")
+  url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL")
 }
