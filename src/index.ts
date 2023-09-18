@@ -3,7 +3,7 @@ import "express-async-errors"
 import { UserController } from './controllers/UserController'
 import { TodoController } from './controllers/TodoController'
 import { handleErrors } from "./error"
-
+import cors from 'cors'
 
 const userController = new UserController()
 const todoController = new TodoController()
@@ -15,7 +15,7 @@ const app = express()
 app
     .use(express.json())
     .use(handleErrors)
-
+    .use(cors())
 app
     .post   ('/user/create', userController.handle)
     .get    ('/user/login', userController.login)
